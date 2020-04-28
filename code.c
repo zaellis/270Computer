@@ -58,7 +58,7 @@ int createout(char* infile, char* codefile)
 	fseek(fptr, 0, SEEK_END);
 	int size = ftell(fptr);
 	fseek(fptr, 0, SEEK_SET);
-	
+	fprintf(stdout, "%d\n", size);
 	char end = size % 2;
 	if(end)
 	{
@@ -96,6 +96,10 @@ int createout(char* infile, char* codefile)
 		if(r1p == '\n')
 		{
 			r0 = 13;
+			end ++;
+			end %= 2;
+			size ++;
+			
 		}
 		else{
 			fread(&r0, sizeof(char), 1, fptr);
@@ -103,6 +107,9 @@ int createout(char* infile, char* codefile)
 		if(r0 == '\n')
 		{
 			r1 = 13;
+			end ++;
+			end %= 2;
+			size ++;
 		}
 		else{
 			fread(&r1, sizeof(char), 1, fptr);
@@ -148,7 +155,7 @@ int createout(char* infile, char* codefile)
 		fprintf(fptrc, "storage[16'h0%c%c%c>>2] = two16(16'hff00, 16'hdf00);\n", a, b, c);
 	}
 	else{
-		fprintf(fptrc, "storage[16'h0%c%c%c>>2] = two16(16'h601d, 16'h610a);\n", a, b, c);
+		fprintf(fptrc, "storage[16'h0%c%c%c>>2] = two16(16'h600d, 16'h610a);\n", a, b, c);
 		updateaddress(&a, &b, &c);
 		fprintf(fptrc, "storage[16'h0%c%c%c>>2] = two16(16'hc000, 16'hff00);\n", a, b, c);
 		updateaddress(&a, &b, &c);
